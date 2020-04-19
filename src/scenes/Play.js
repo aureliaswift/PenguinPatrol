@@ -2,27 +2,80 @@ class Play extends Phaser.Scene {
     constructor() { 
         super("playScene");
     }
+
     //load the graphics before we create them
     preload() {
         // load images/tile sprites
-        this.load.image('rocket', './assets/rocket.png');
-        this.load.image('spaceship', './assets/spaceship.png');
-        this.load.image('starfield', './assets/starfield.png');
+        this.load.image('rocket', './assets/Fish1.png');
+        this.load.image('spaceship', './assets/Penguin1.png');
+        this.load.image('starfield', './assets/snowfield.png');
+        this.load.image('icicles', './assets/icicles.png');
         // load spritesheet
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
-      }
+        this.load.spritesheet('hearts', './assets/hearts.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 8});
+        
+    }
+
 
     //adds objects to the scene
     create() {
-        //place tile sprite
+
+        this.bgm = this.sound.add('sfx_music');
+        this.bgm.setLoop(true);
+        this.bgm.play();
+        //place tile sprite'
         this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
+        this.icicles = this.add.tileSprite(25, 25, 600, 64, 'icicles').setOrigin(0, 0);
         // white rectangle borders
-        this.add.rectangle(5, 5, 630, 32, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(5, 443, 630, 32, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(5, 5, 32, 455, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(603, 5, 32, 455, 0xFFFFFF).setOrigin(0, 0);
-        // green UI background
-        this.add.rectangle(37, 42, 566, 64, 0x00FF00).setOrigin(0, 0);
+        //going to try and make it look like a candy cane
+        //(x-coordinate, y-coordinate, width, height, color )
+
+        //down left border
+        //this.add.rectangle(5, 5, 32, 455, 0xFFFFFF).setOrigin(0, 0);
+        //this.add.rectangle(5, 5, 8, 455, 0xFFFFFF).setOrigin(0, 0);
+        this.add.rectangle(10, 5, 8, 455, 0xff0000).setOrigin(0, 0);
+        this.add.rectangle(15, 5, 8, 455,0xFFFFFF).setOrigin(0, 0);
+        this.add.rectangle(20, 5, 8, 455, 0xff0000).setOrigin(0, 0);
+
+        //down right border 
+       // this.add.rectangle(603, 5, 32, 455, 0xFFFFFF).setOrigin(0, 0);
+       this.add.rectangle(612, 5, 8, 455, 0xff0000).setOrigin(0, 0);
+       this.add.rectangle(617, 5, 8, 455, 0xFFFFFF).setOrigin(0, 0);
+       this.add.rectangle(622, 5, 8, 455,0xff0000).setOrigin(0, 0);
+       this.add.rectangle(627, 5, 8, 455,0xFFFFFF ).setOrigin(0, 0);
+
+       //TOP across border
+        //this.add.rectangle(5, 5, 630, 32, 0xFFFFFF).setOrigin(0, 0); <-- original
+        this.add.rectangle(5, 5, 630, 8, 0xFFFFFF).setOrigin(0, 0);
+        this.add.rectangle(5, 10, 630, 8, 0xff0000).setOrigin(0, 0);
+        this.add.rectangle(5, 15, 630, 8, 0xFFFFFF).setOrigin(0, 0);
+        this.add.rectangle(5, 20, 630, 8, 0xff0000).setOrigin(0, 0);
+
+        //BOTTOM across border
+        //this.add.rectangle(5, 443, 630, 32, 0xFFFFFF).setOrigin(0, 0);
+        this.add.rectangle(5, 443, 630, 8, 0xff0000).setOrigin(0, 0);
+        this.add.rectangle(5, 448, 630, 8, 0xFFFFFF).setOrigin(0, 0);
+        this.add.rectangle(5, 453, 630, 8, 0xff0000).setOrigin(0, 0);
+        this.add.rectangle(5, 458, 630, 8, 0xFFFFFF).setOrigin(0, 0);
+
+        //fix the trouble areas
+        //i know this is probably horribly innefficient im sorry 
+
+        this.add.rectangle(15, 15, 5, 438, 0xFFFFFF).setOrigin(0, 0);
+        this.add.rectangle(10, 10, 5, 448, 0xff0000).setOrigin(0, 0);
+        this.add.rectangle(5, 5, 5, 455, 0xFFFFFF).setOrigin(0, 0);
+
+        this.add.rectangle(617, 15, 8, 438, 0xFFFFFF).setOrigin(0, 0);
+        this.add.rectangle(622, 10, 8, 448, 0xff0000).setOrigin(0, 0);
+        this.add.rectangle(627, 5, 8, 455,0xFFFFFF).setOrigin(0, 0);
+
+        
+        //this.add.rectangle(630, 5, 5, 455, 0xFFFFFF).setOrigin(0, 0);
+        //this.add.rectangle(5, 8, 8, 8, 0xFFFFFF).setOrigin(0, 0);
+
+        //green UI background
+        //this.add.rectangle(37, 42, 566, 64, 0x00FF00).setOrigin(0, 0);
+
 
         // add rocket (p1)
         //this.p1Rocket = new Rocket(this, game.config.width/2, 431, 'rocket');
@@ -41,51 +94,88 @@ class Play extends Phaser.Scene {
         // animation config
         this.anims.create({
         key: 'explode',
-        frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0}),
+        frames: this.anims.generateFrameNumbers('hearts', { start: 0, end: 8, first: 0}),
         frameRate: 30
         });
 
+        //variable to store the score 
         this.p1Score = 0;
-
-        // score display
+        //create score display
         let scoreConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
-            align: 'right',
+            backgroundColor: '#5fcde4',
+            color: '#FFFFFF',
+            align: 'center',
             padding: {
                 top: 5,
                 bottom: 5,
             },
             fixedWidth: 100
         }
-        this.scoreLeft = this.add.text(69, 54, this.p1Score, scoreConfig);
+        let hiScoreConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#5fcde4',
+            color: '#FFFFFF',
+            align: 'center',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 100
+        }
 
-       
-    // game over flag
-    this.gameOver = false;
-    // 60-second play clock
-    scoreConfig.fixedWidth = 0;
-    this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
-    this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-    this.add.text(game.config.width/2, game.config.height/2 + 64, '(F)ire to Restart', scoreConfig).setOrigin(0.5);
-    this.gameOver = true;
-    }, null, this);
-}
+
+
+        this.hiScore = this.add.text(470, 54, game.settings.highScore, hiScoreConfig);
+        //add the score text to the score display
+        this.scoreLeft = this.add.text(70, 54, this.p1Score, scoreConfig);
+        //same for high score
+        
+        // add text above displays soplayer knows what tf they are
+        this.add.text(69, 34, 'score:');
+        this.add.text(470, 34, "high score:");
+
+        // game over flag
+        this.gameOver = false;
+        // 60-second play clock = 60000? 
+        //YOU CHANGED IT TO 5 SECONDS HERE
+        scoreConfig.fixedWidth = 0; //wtf is this
+        this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
+        this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2 + 64, '(F)ire to Restart or ← for Menu ', scoreConfig).setOrigin(0.5);
+        this.gameOver = true;
+        }, null, this);
+    }
 
 
     update() {
-        // check key input for restart
+       
+
+        if(this.p1Score > game.settings.highScore){
+            game.settings.highScore = this.p1Score;
+            }
+
+        // check key input for restart/menu
+        //restart game
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyF)) {
+            //for the love of god please stop the music
+            this.bgm.stop();
+            //if the new game score is higher then the old high score, update
             this.scene.restart();
         }
-
+        //go back to menu
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+            this.bgm.stop();
             this.scene.start("menuScene");
         }
 
+        //scroll sprites
         this.starfield.tilePositionX -= 4;
+        this.icicles.tilePositionX -=2;
+
+        //if the timer is still running, update the positions 
         if (!this.gameOver) {               
             this.p1Rocket.update();         // update rocket sprite
             this.ship01.update();           // update spaceships (x3)
@@ -93,10 +183,6 @@ class Play extends Phaser.Scene {
             this.ship03.update();
         } 
 
-        this.p1Rocket.update();
-        this.ship01.update();               // update spaceships (x3)
-        this.ship02.update();
-        this.ship03.update();
 
         // check collisions
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
@@ -114,6 +200,7 @@ class Play extends Phaser.Scene {
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
         }   
+
     }  
 
     checkCollision(rocket, ship) {
@@ -140,12 +227,13 @@ class Play extends Phaser.Scene {
             boom.destroy();                     // remove explosion sprite
         });
         
-        //score increment 
+        //score increment and repaint
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;
-        this.sound.play('sfx_explosion');
+        this.sound.play('sfx_quack');
+
+       
     }
-    
 
 }
 
