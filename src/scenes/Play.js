@@ -27,7 +27,7 @@ class Play extends Phaser.Scene {
         //place tile sprite
         //this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
         this.add.image(0,-30,'ocean').setOrigin(0, 0);
-        this.seaweed = this.add.tileSprite(30,30, 640,480, 'seaweed').setOrigin(0, 0);
+        this.seaweed = this.add.tileSprite(0,30, 640,480, 'seaweed').setOrigin(0, 0);
         this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
 
 
