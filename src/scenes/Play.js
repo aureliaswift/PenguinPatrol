@@ -8,12 +8,14 @@ class Play extends Phaser.Scene {
         // load images/tile sprites
         this.load.image('rocket', './assets/Fish1.png');
         this.load.image('spaceship', './assets/Penguin1.png');
-        this.load.image('starfield', './assets/snowfield.png');
+        this.load.image('starfield', './assets/white.png');
         this.load.image('icicles', './assets/icicles.png');
+        this.load.image('seaweed', './assets/Seaweed.png');
         // load spritesheet
-        this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+        //this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.spritesheet('hearts', './assets/hearts.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 8});
-        
+        this.load.spritesheet('penguin', './assets/PenguinBlue.png',{frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 2});
+
     }
 
 
@@ -23,9 +25,14 @@ class Play extends Phaser.Scene {
         this.bgm = this.sound.add('sfx_music');
         this.bgm.setLoop(true);
         this.bgm.play();
-        //place tile sprite'
-        this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
+        //place tile sprite
+        //this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
+        this.add.image(0,-30,'ocean').setOrigin(0, 0);
         this.icicles = this.add.tileSprite(25, 25, 600, 64, 'icicles').setOrigin(0, 0);
+        this.seaweed = this.add.tileSprite(20,5, 640,480, 'seaweed').setOrigin(0, 0);
+        this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
+
+        
         // white rectangle borders
         //going to try and make it look like a candy cane
         //(x-coordinate, y-coordinate, width, height, color )
@@ -80,11 +87,13 @@ class Play extends Phaser.Scene {
         // add rocket (p1)
         //this.p1Rocket = new Rocket(this, game.config.width/2, 431, 'rocket');
         this.p1Rocket = new Rocket(this, game.config.width/2 - 8, 431, 'rocket').setScale(0.5, 0.5).setOrigin(0, 0);
-        
+    
+
         // add spaceships (x3)
         this.ship01 = new Spaceship(this, game.config.width + 192, 132, 'spaceship', 0, 30).setOrigin(0,0);
         this.ship02 = new Spaceship(this, game.config.width + 96, 196, 'spaceship', 0, 20).setOrigin(0,0);
         this.ship03 = new Spaceship(this, game.config.width, 260, 'spaceship', 0, 10).setOrigin(0,0);
+
 
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -97,6 +106,20 @@ class Play extends Phaser.Scene {
         frames: this.anims.generateFrameNumbers('hearts', { start: 0, end: 8, first: 0}),
         frameRate: 30
         });
+
+        //animation for penguins
+        this.anims.create({
+            key: 'fly',
+            frames: this.anims.generateFrameNumbers('penguin', { start: 0, end:1, first: 0}),
+            frameRate: 5,
+            repeat: -1
+            });
+
+        this.ship01.anims.play('fly');
+        this.ship02.anims.play('fly');
+        this.ship03.anims.play('fly');
+
+
 
         //variable to store the score 
         this.p1Score = 0;
@@ -174,6 +197,7 @@ class Play extends Phaser.Scene {
         //scroll sprites
         this.starfield.tilePositionX -= 4;
         this.icicles.tilePositionX -=2;
+        this.seaweed.tilePositionX -=2;
 
         //if the timer is still running, update the positions 
         if (!this.gameOver) {               

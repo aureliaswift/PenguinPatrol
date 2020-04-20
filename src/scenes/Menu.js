@@ -6,8 +6,8 @@ class Menu extends Phaser.Scene {
     // load audio
     preload() {
    //this.load.audio('sfx_select', './assets/blip_select12.wav');
-    this.load.audio('sfx_explosion', './assets/explosion38.wav');
-    this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
+    //this.load.audio('sfx_explosion', './assets/explosion38.wav');
+    //this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
 
     //mod audio
     this.load.audio('sfx_ice_menu', './assets/ice_menu.wav');
@@ -18,6 +18,8 @@ class Menu extends Phaser.Scene {
     //add menu images
     this.load.image('menuPenguin', './assets/menu.png');
     this.load.image('white', './assets/white.png');
+    this.load.image('ocean','./assets/ocean.png');
+    
 
     }
     
@@ -64,8 +66,9 @@ class Menu extends Phaser.Scene {
       let centerY = game.config.height/2;
 
      // this.add.image(centerX, centerY, 'white');
-      //this.white = this.add.tileSprite(0, 0, 640, 480, 'white').setOrigin(0, 0);
-      this.add.image(centerX,400,'menuPenguin');
+     this.add.image(centerX,centerY,'ocean');
+      this.white = this.add.tileSprite(0, 0, 640, 480, 'white').setOrigin(0, 0);
+      this.add.image(centerX,100,'menuPenguin');
       
 
       let textSpacer = 64;
