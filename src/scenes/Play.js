@@ -149,7 +149,7 @@ class Play extends Phaser.Scene {
             fixedWidth: 100
         }
 
-
+        //comment
 
         this.hiScore = this.add.text(470, 54, game.settings.highScore, hiScoreConfig);
         //add the score text to the score display
