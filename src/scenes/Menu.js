@@ -69,8 +69,8 @@ class Menu extends Phaser.Scene {
      // this.add.image(centerX, centerY, 'white');
      this.add.image(centerX,centerY,'ocean');
       this.white = this.add.tileSprite(0, 0, 640, 480, 'white').setOrigin(0, 0);
-      this.add.image(centerX+200,centerY-100,'menuPenguin');
-      this.add.image(centerX-200,centerY-100,'menuPenguin2');
+      this.add.image(centerX,100,'menuPenguin');
+      //this.add.image(centerX-200,centerY-100,'menuPenguin2');
       
 
       let textSpacer = 64;
@@ -79,10 +79,10 @@ class Menu extends Phaser.Scene {
       menuConfig.backgroundColor = '#5fcde4';
       menuConfig.color = '#FFFFFF';
       this.add.text(centerX, centerY + textSpacer, 'Press ← for Easy or → for Hard', menuConfig).setOrigin(0.5);  
-      this.icicles = this.add.tileSprite(0, 0, 640, 64, 'icicles').setOrigin(0, 0);
+      this.icicles = this.add.tileSprite(0, -10, 640, 64, 'icicles').setOrigin(0, 0);
 
-      this.hiScore = this.add.text(270,80, game.settings.highScore, hiScoreConfig);
-    this.add.text(270, 60, "high score:");
+    this.hiScore = this.add.text(270,380, game.settings.highScore, hiScoreConfig);
+    this.add.text(270, 360, "high score:");
 
       // define keys
       keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
