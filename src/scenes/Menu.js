@@ -47,8 +47,6 @@ class Menu extends Phaser.Scene {
         },
         fixedWidth: 100
     }
-    this.hiScore = this.add.text(470, 54, game.settings.highScore, hiScoreConfig);
-    this.add.text(470, 34, "high score:");
 
       let menuConfig = {
         fontFamily: 'Courier',
@@ -82,6 +80,9 @@ class Menu extends Phaser.Scene {
       menuConfig.color = '#FFFFFF';
       this.add.text(centerX, centerY + textSpacer, 'Press ← for Easy or → for Hard', menuConfig).setOrigin(0.5);  
       this.icicles = this.add.tileSprite(0, 0, 640, 64, 'icicles').setOrigin(0, 0);
+
+      this.hiScore = this.add.text(270,80, game.settings.highScore, hiScoreConfig);
+    this.add.text(270, 60, "high score:");
 
       // define keys
       keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
