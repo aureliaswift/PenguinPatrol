@@ -17,8 +17,11 @@ class Menu extends Phaser.Scene {
 
     //add menu images
     this.load.image('menuPenguin', './assets/menu.png');
+    this.load.image('menuPenguin2', './assets/menu2.png');
+   
     this.load.image('white', './assets/white.png');
     this.load.image('ocean','./assets/ocean.png');
+    this.load.image('icicles', './assets/icicles.png');
     
 
     }
@@ -68,16 +71,18 @@ class Menu extends Phaser.Scene {
      // this.add.image(centerX, centerY, 'white');
      this.add.image(centerX,centerY,'ocean');
       this.white = this.add.tileSprite(0, 0, 640, 480, 'white').setOrigin(0, 0);
-      this.add.image(centerX,100,'menuPenguin');
+      this.add.image(centerX+200,centerY-100,'menuPenguin');
+      this.add.image(centerX-200,centerY-100,'menuPenguin2');
       
 
       let textSpacer = 64;
       this.add.text(centerX, centerY- textSpacer, 'PENGUIN PATROL', menuConfig).setOrigin(0.5);
-      this.add.text(centerX, centerY, 'Use ←→ arrows to move & (F) to Fire', menuConfig).setOrigin(0.5);
+      this.add.text(centerX, centerY, 'Use ←→ arrows to move & (F) to Feed', menuConfig).setOrigin(0.5);
       menuConfig.backgroundColor = '#5fcde4';
       menuConfig.color = '#FFFFFF';
       this.add.text(centerX, centerY + textSpacer, 'Press ← for Easy or → for Hard', menuConfig).setOrigin(0.5);  
-      
+      this.icicles = this.add.tileSprite(0, 0, 640, 64, 'icicles').setOrigin(0, 0);
+
       // define keys
       keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
       keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
@@ -86,6 +91,7 @@ class Menu extends Phaser.Scene {
 
     update() {
 
+      //this.icicles.tilePositionX -=2;
       if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
         // easy mode
         game.settings = {
@@ -105,6 +111,8 @@ class Menu extends Phaser.Scene {
           gameTimer: 45000    
         }
         //replace with ice sound effect
+
+  
         //at some point make this into a different ice sound
         this.sound.play('sfx_ice_menu');
         this.scene.start("playScene");    

@@ -9,7 +9,6 @@ class Play extends Phaser.Scene {
         this.load.image('rocket', './assets/Fish1.png');
         this.load.image('spaceship', './assets/Penguin1.png');
         this.load.image('starfield', './assets/white.png');
-        this.load.image('icicles', './assets/icicles.png');
         this.load.image('seaweed', './assets/Seaweed.png');
         // load spritesheet
         //this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
@@ -28,7 +27,6 @@ class Play extends Phaser.Scene {
         //place tile sprite
         //this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
         this.add.image(0,-30,'ocean').setOrigin(0, 0);
-        this.icicles = this.add.tileSprite(25, 25, 600, 64, 'icicles').setOrigin(0, 0);
         this.seaweed = this.add.tileSprite(30,30, 640,480, 'seaweed').setOrigin(0, 0);
         this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
 
@@ -196,7 +194,6 @@ class Play extends Phaser.Scene {
 
         //scroll sprites
         this.starfield.tilePositionX -= 4;
-        this.icicles.tilePositionX -=2;
         this.seaweed.tilePositionX -=2;
 
         //if the timer is still running, update the positions 
