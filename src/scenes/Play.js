@@ -13,14 +13,16 @@ class Play extends Phaser.Scene {
         // load spritesheet
         //this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.spritesheet('hearts', './assets/hearts.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 8});
-        this.load.spritesheet('penguin', './assets/PenguinBlue.png',{frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 2});
-
+        this.load.spritesheet('penguin', './assets/PenguinPurple.png',{frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 2});
+        this.load.spritesheet('penguin2', './assets/PenguinBlack.png',{frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 2});
+        this.load.spritesheet('penguin3', './assets/PenguinRed.png',{frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 2});
+        
     }
 
 
     //adds objects to the scene
     create() {
-
+        //add sound and shit
         this.bgm = this.sound.add('sfx_music');
         this.bgm.setLoop(true);
         this.bgm.play();
@@ -30,7 +32,7 @@ class Play extends Phaser.Scene {
         this.seaweed = this.add.tileSprite(0,30, 640,480, 'seaweed').setOrigin(0, 0);
         this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
 
-
+        //this is my failure at making the border UI look good
         /*
         
         // white rectangle borders
@@ -86,12 +88,14 @@ class Play extends Phaser.Scene {
 
         // add rocket (p1)
         //this.p1Rocket = new Rocket(this, game.config.width/2, 431, 'rocket');
+
+        //add rocket
         this.p1Rocket = new Rocket(this, game.config.width/2 - 8, 431, 'rocket').setScale(0.5, 0.5).setOrigin(0, 0);
     
 
         // add spaceships (x3)
         this.ship01 = new Spaceship(this, game.config.width + 192, 132, 'spaceship', 0, 30).setOrigin(0,0);
-        this.ship02 = new Spaceship(this, game.config.width + 96, 196, 'spaceship', 0, 20).setOrigin(0,0);
+        this.ship02 = new Spaceship(this, game.config.width + 96, 196, 'penguin2', 0, 20).setOrigin(0,0);
         this.ship03 = new Spaceship(this, game.config.width, 260, 'spaceship', 0, 10).setOrigin(0,0);
 
 
@@ -114,11 +118,29 @@ class Play extends Phaser.Scene {
             frameRate: 5,
             repeat: -1
             });
+        
+        //do the same for the other penguin variations, I am sure there is a better way to do this
+        //but for now it will do!
 
+        this.anims.create({
+            key: 'fly2',
+            frames: this.anims.generateFrameNumbers('penguin2', { start: 0, end:1, first: 0}),
+            frameRate: 5,
+            repeat: -1
+             });
+
+        this.anims.create({
+            key: 'fly3',
+            frames: this.anims.generateFrameNumbers('penguin3', { start: 0, end:1, first: 0}),
+            frameRate: 5,
+            repeat: -1
+            });
+    
+        
+        //play animation
         this.ship01.anims.play('fly');
-        this.ship02.anims.play('fly');
-        this.ship03.anims.play('fly');
-
+        this.ship02.anims.play('fly2');
+        this.ship03.anims.play('fly3');
 
 
         //variable to store the score 
@@ -136,6 +158,7 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 100
         }
+        //create high score display
         let hiScoreConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
@@ -149,21 +172,18 @@ class Play extends Phaser.Scene {
             fixedWidth: 100
         }
 
-        //comment
-
+        //attempt to display the high score
+        //I have it always be 0 until an actual score is obtained at the end of a game
         this.hiScore = this.add.text(470, 54, game.settings.highScore, hiScoreConfig);
         //add the score text to the score display
         this.scoreLeft = this.add.text(70, 54, this.p1Score, scoreConfig);
         //same for high score
-        
         // add text above displays soplayer knows what tf they are
         this.add.text(69, 34, 'score:');
         this.add.text(470, 34, "high score:");
 
         // game over flag
         this.gameOver = false;
-        // 60-second play clock = 60000? 
-        //YOU CHANGED IT TO 5 SECONDS HERE
         scoreConfig.fixedWidth = 0; //wtf is this
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
         this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
@@ -172,10 +192,8 @@ class Play extends Phaser.Scene {
         }, null, this);
     }
 
-
     update() {
-       
-
+        //only update high score if it is higher then the old one
         if(this.p1Score > game.settings.highScore){
             game.settings.highScore = this.p1Score;
             }
@@ -196,6 +214,7 @@ class Play extends Phaser.Scene {
 
         //scroll sprites
         this.starfield.tilePositionX -= 4;
+        //parralax pls
         this.seaweed.tilePositionX -=2;
 
         //if the timer is still running, update the positions 
