@@ -30,6 +30,8 @@ class Play extends Phaser.Scene {
         this.seaweed = this.add.tileSprite(30,30, 640,480, 'seaweed').setOrigin(0, 0);
         this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
 
+
+        /*
         
         // white rectangle borders
         //going to try and make it look like a candy cane
@@ -80,7 +82,7 @@ class Play extends Phaser.Scene {
 
         //green UI background
         //this.add.rectangle(37, 42, 566, 64, 0x00FF00).setOrigin(0, 0);
-
+        */
 
         // add rocket (p1)
         //this.p1Rocket = new Rocket(this, game.config.width/2, 431, 'rocket');
