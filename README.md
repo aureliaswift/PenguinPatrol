@@ -1,4 +1,17 @@
 # PenguinPatrol
+Mods Attempted 
+-Tracking high score (10)
+
+-Add Bg music to play scene(10)
+
+-Allow player to control rocket after fired (10)
+
+-Parallax Scrolling (15)
+
+-Animate Sprite for spaceship enemies (15)
+
+- Redesign the game's artwork/UI/ sound  (50)
+
 
 All artwork in the game was made by me using Aseprite 
 
